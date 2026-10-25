@@ -8,6 +8,8 @@
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/gl.h>
 
+#include <SDL2/SDL.h>
+
 typedef struct notify_request {
   char useless1[45];
   char message[3075];
@@ -15,6 +17,13 @@ typedef struct notify_request {
 
 extern "C" {
    int sceKernelSendNotificationRequest(int, notify_request_t*, size_t, int);
+   int sceSystemServiceHideSplashScreen();
+   int sceVideoOutOpen(std::int32_t user_id, std::int32_t bus_type, std::int32_t index,
+                       const void *param);
+   int sceVideoOutSetFlipRate(std::int32_t handle, std::int32_t rate);
+   int sceVideoOutSubmitFlip(std::int32_t handle, std::int32_t buffer_index,
+                             std::uint32_t flip_mode, std::int64_t flip_argument);
+   int sceVideoOutWaitVblank(std::int32_t handle);
 }
 
 const char * VertexShaderSource =
@@ -24,26 +33,6 @@ const char * VertexShaderSource =
 const char * FragmentShaderSource =
 #include "shaders/fragment.glsl"
 ;
-
-
-static constexpr EGLint surface_type = EGL_WINDOW_BIT;
-static constexpr EGLint SurfaceInfo[] = {
-   EGL_SURFACE_TYPE, surface_type,
-   EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-   EGL_RED_SIZE, 8,
-   EGL_GREEN_SIZE, 8,
-   EGL_BLUE_SIZE, 8,
-   EGL_ALPHA_SIZE, 8,
-   EGL_DEPTH_SIZE, 24,
-   EGL_NONE};
-
-static constexpr EGLint ContextInfo[] = {
-   EGL_CONTEXT_MAJOR_VERSION_KHR,3,
-   EGL_CONTEXT_MINOR_VERSION_KHR,3,
-   EGL_CONTEXT_OPENGL_PROFILE_MASK_KHR,
-   EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT_KHR,
-   EGL_NONE};
-
 
 struct Vertex {
    float x;
@@ -84,19 +73,25 @@ static GLuint CompileShader(int type, const char * shaderSource) {
 } 
 
 int main() {
-   EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
    EGLSurface surface = EGL_NO_SURFACE;
-   EGLContext context = EGL_NO_CONTEXT;
    EGLConfig config = NULL; 
    EGLint count = 0;
    notify_request_t debugMessage = {};
+   SDL_GLContext context;
 
-   eglInitialize(display, NULL, NULL);
-   eglBindAPI(EGL_OPENGL_API);
-   eglChooseConfig(display, SurfaceInfo, &config, 1, &count);
-   surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)0, NULL);
-   context = eglCreateContext(display, config, EGL_NO_CONTEXT, ContextInfo);
-   eglMakeCurrent(display,surface,surface,context);
+   SDL_Init(SDL_INIT_VIDEO);
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+   SDL_GL_SetSwapInterval(1);
+
+   SDL_Window * window = SDL_CreateWindow(
+       "ps5", 0, 0, 1920, 1080,
+       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
+
+   context = SDL_GL_CreateContext(window);
 
    GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, VertexShaderSource);
    GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderSource);
@@ -137,7 +132,7 @@ int main() {
    while(true) {
       glClear(GL_COLOR_BUFFER_BIT);
       glDrawArrays(GL_TRIANGLES, 0, sizeof(TriangleVerts) / sizeof(Vertex));
-      eglSwapBuffers(display, surface);
+      SDL_GL_SwapWindow(window);
    }
 
    return 0;

@@ -18,3 +18,7 @@ mkdir -p deps/lib
 ./scripts/download_library.sh https://github.com/cybervisi0n/ps5-mesa ps5-mesa_release.zip
 ./scripts/download_library.sh https://github.com/cybervisi0n/ps5-opengnm-psbc ps5-opengnm-psbc_release.zip
 ./scripts/download_library.sh https://github.com/cybervisi0n/ps5-gl-runtime ps5-gl-runtime_release.zip
+
+# Add your own external libraries here
+# SDL2 is provided as an example
+./scripts/download_library.sh https://github.com/cybervisi0n/ps5-sdl2 ps5-sdl2_release.zip
