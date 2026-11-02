@@ -31,6 +31,15 @@ Use the ./drun.sh script to interface with the dev container. On the first run o
 * Native apps cannot directly make syscalls like payloads can
 * Calling functions like dlopen() will crash native apps due to the inability to make syscalls
 
+### A note about Heap memory
+* The ps5 has access to standard malloc/free, however, these live within libSceLibcInternal.sprx and these implementations only give you access to a very small heap
+* * From my testing, this heap is approximately 16MiB
+* To access more memory, use sceKernel.*DirectMemory APIs
+* malloc(), free(), etc can be overridden with an implementation in a homebrew app
+* An example of this is (here)[https://github.com/cybervisi0n/libntr/blob/main/libraries/sim/src/ps5_heap.cpp]
+* * Some form of malloc() replacement will make its way to this SDK soon™
+
+
 ## Debugging With GDB
 
 Using the ps5debug-ng and gdbsrv payloads, it is possible to debug PS5 applications. Follow these steps:
