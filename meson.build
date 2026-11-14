@@ -101,10 +101,14 @@ ps5app_external_libs = declare_dependency(
         cpp.find_library('mesa', dirs: ps5_lib_dirs),
         cpp.find_library('mesa_sse41', dirs: ps5_lib_dirs),
         cpp.find_library('nir', dirs: ps5_lib_dirs),
-        cpp.find_library('ps5_opengl_core33', dirs: ps5_lib_dirs),
-        cpp.find_library('psbc.ps5', dirs: ps5_lib_dirs),
-        cpp.find_library('softpipe', dirs: ps5_lib_dirs),
+        #cpp.find_library('psbc.ps5', dirs: ps5_lib_dirs),
+        cpp.find_library('zink', dirs: ps5_lib_dirs),
         cpp.find_library('vtn', dirs: ps5_lib_dirs),
+        cpp.find_library('EGL', dirs: ps5_lib_dirs),
+        cpp.find_library('z', dirs: ps5_lib_dirs),
+        cpp.find_library('vulkan_radeon', dirs: ps5_lib_dirs),
+        cpp.find_library('vulkan_runtime', dirs: ps5_lib_dirs),
+        cpp.find_library('vulkan_util', dirs: ps5_lib_dirs),
 
         # Add your own external libraries here. SDL2 is provided as an example
         cpp.find_library('SDL2', dirs: ps5_lib_dirs),
