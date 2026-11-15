@@ -15,10 +15,7 @@ crt_lib = static_library('crt',
     'patch.c',
     'posix_fallocate.c',
     'ps5_heap.cpp',
-    'rtld.c',
-    'rtld_dlfcn.c',
-    'rtld_payload.c',
-    'rtld_sprx.c',
+    'rtld_stub.c',
     'syscall.c'
     ),
     c_args: [

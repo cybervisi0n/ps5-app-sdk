@@ -14,10 +14,8 @@ rm -f ps5-payload-sdk.zip
 mkdir -p deps/include
 mkdir -p deps/lib
 
-# Download OpenGL libraries
+# Download OpenGL and Vulkan libraries
 ./scripts/download_library.sh https://github.com/cybervisi0n/ps5-mesa-radv ps5-mesa_release.zip
-./scripts/download_library.sh https://github.com/cybervisi0n/ps5-opengnm-psbc ps5-opengnm-psbc_release.zip
-./scripts/download_library.sh https://github.com/cybervisi0n/ps5-gl-runtime ps5-gl-runtime_release.zip
 
 # Add your own external libraries here
 # SDL2 is provided as an example
