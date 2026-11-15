@@ -129,6 +129,8 @@ int main() {
    glBufferData(GL_ARRAY_BUFFER,sizeof(TriangleVerts),TriangleVerts,GL_DYNAMIC_DRAW);
    glDisable(GL_DEPTH_TEST);
 
+   sceSystemServiceHideSplashScreen();
+
    while(true) {
       glClear(GL_COLOR_BUFFER_BIT);
       glDrawArrays(GL_TRIANGLES, 0, sizeof(TriangleVerts) / sizeof(Vertex));

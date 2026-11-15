@@ -10,6 +10,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "ps5_heap.h"
+
 using Destructor = void (*)();
 using Initializer = void (*)();
 
@@ -75,6 +77,7 @@ _start(void *process_parameters, Destructor loader_teardown)
         (void)atexit(loader_teardown);
     (void)atexit(_fini);
     _init();
+    ps5_heap_initialize();
     const int status = application_main(argc, argv, nullptr);
     catchReturnFromMain(status);
     exit(status);

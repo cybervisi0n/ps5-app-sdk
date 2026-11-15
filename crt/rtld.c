@@ -19,7 +19,6 @@ along with this program; see the file COPYING. If not, see
 #include "rtld.h"
 #include "rtld_dlfcn.h"
 #include "rtld_payload.h"
-#include "rtld_so.h"
 #include "rtld_sprx.h"
 
 
@@ -293,7 +292,8 @@ __rtld_lib_new(rtld_lib_t* parent, const char* soname) {
   if(endswith(soname, ".sprx")) {
     return __rtld_sprx_new(parent, soname);
   } else {
-    return __rtld_so_new(parent, soname);
+    // Not currently supported
+    return (void*)(0);
   }
 }
 
@@ -551,9 +551,9 @@ __rtld_init(void) {
   if((err=__rtld_sprx_init())) {
     return err;
   }
-  if((err=__rtld_so_init())) {
-    return err;
-  }
+  //if((err=__rtld_so_init())) {
+  //  return err;
+  //}
   if((err=__rtld_payload_init())) {
     return err;
   }
