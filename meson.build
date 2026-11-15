@@ -70,7 +70,7 @@ elf_link_args = [
 ps5app_link_args = [
     '-L' + meson.global_source_root() + '/deps/lib',
     '-Wl,--whole-archive',
-    '-lvulkan_lite_runtime',
+    '-lvulkan_radeon',
     '-Wl,--no-whole-archive'
 ]
 
@@ -111,8 +111,8 @@ ps5app_external_libs = declare_dependency(
         cpp.find_library('EGL', dirs: ps5_lib_dirs),
         cpp.find_library('z', dirs: ps5_lib_dirs),
         cpp.find_library('vulkan_radeon', dirs: ps5_lib_dirs),
-        cpp.find_library('vulkan_runtime', dirs: ps5_lib_dirs),
-        #cpp.find_library('vulkan_lite_runtime', dirs: ps5_lib_dirs),
+        #cpp.find_library('vulkan_runtime', dirs: ps5_lib_dirs),
+        cpp.find_library('vulkan_lite_runtime', dirs: ps5_lib_dirs),
         cpp.find_library('vulkan_instance', dirs: ps5_lib_dirs),
         cpp.find_library('vulkan_util', dirs: ps5_lib_dirs),
 
