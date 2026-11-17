@@ -14,6 +14,9 @@ rm -f ps5-payload-sdk.zip
 mkdir -p deps/include
 mkdir -p deps/lib
 
+# Download PS5 app C runtime
+./scripts/download_library.sh https://github.com/cybervisi0n/ps5-app-crt ps5-app-crt_release.zip
+
 # Download OpenGL and Vulkan libraries
 ./scripts/download_library.sh https://github.com/cybervisi0n/ps5-mesa-radv ps5-mesa_release.zip
 

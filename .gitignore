@@ -1,3 +1,5 @@
 build/
 deps/
 .gdbinit
+subprojects/prospero-headers/
+subprojects/ps5-app-crt/

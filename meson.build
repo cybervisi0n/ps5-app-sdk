@@ -48,9 +48,8 @@ add_project_arguments(ps5app_cpp_args,
     native: false
 )
 
-# PS5 App C Runtime & native tools
+# PS5 App native tools
 subdir('agc_stubs')
-subdir('crt')
 subdir('tools')
 
 # App code: define your source files in src/meson.build
@@ -121,15 +120,16 @@ ps5app_external_libs = declare_dependency(
     ]
 )
 
+ps5_app_crt_dep = dependency('ps5-app-crt')
+
 # Link ELF file (PIE)
 ps5app_elf = executable(
     'ps5-app.elf',
     sources: ps5app_srcs,
     include_directories: ps5_includes,
-    dependencies: ps5app_external_libs,
+    dependencies: [ps5app_external_libs, ps5_app_crt_dep],
     link_args: [elf_link_args, ps5app_link_args],
     link_with: ps5app_libs,
-    link_whole: crt_lib,
     native: false
 )
 
