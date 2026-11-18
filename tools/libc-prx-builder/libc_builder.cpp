@@ -1,12 +1,3 @@
-/*
- * ps5-native-app-boilerplate - Native clean-room runtime-module builder.
- * Copyright (C) 2026 BlackBearReloaded
- * SPDX-License-Identifier: GPL-3.0-or-later
- *
- * Deterministically emits the libc-compatible loader companion from tracked
- * semantic manifests without managed code or external libraries.
- */
-
 #include "hash.hpp"
 
 #include <algorithm>

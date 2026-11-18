@@ -62,7 +62,17 @@ elf_link_args = [
     '-e',
     '_start',
     '-Wl,--version-script=' + meson.global_source_root() + '/' + 'ps5-app-symbols.map',
-    '-pthread'
+    '-pthread',
+    '-Wl,--wrap=malloc',
+    '-Wl,--wrap=calloc',
+    '-Wl,--wrap=realloc',
+    '-Wl,--wrap=free',
+    '-Wl,--wrap=posix_memalign',
+    '-Wl,--wrap=aligned_alloc',
+    '-Wl,--wrap=memalign',
+    '-Wl,--wrap=malloc_usable_size',
+    '-Wl,--wrap=reallocf',
+    '-Wl,--wrap=reallocarray'
 ]
 
 # Add your own link arguments here
@@ -70,7 +80,7 @@ ps5app_link_args = [
     '-L' + meson.global_source_root() + '/deps/lib',
     '-Wl,--whole-archive',
     '-lvulkan_radeon',
-    '-Wl,--no-whole-archive'
+    '-Wl,--no-whole-archive',
 ]
 
 ps5app_external_libs = declare_dependency(
