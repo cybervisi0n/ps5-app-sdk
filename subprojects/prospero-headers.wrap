@@ -1,2 +1,8 @@
-[wrap-redirect]
-filename = ps5-app-crt/subprojects/prospero-headers.wrap
+[wrap-git]
+url = https://github.com/cybervisi0n/prospero-headers.git
+revision = main
+depth = 1
+directory = prospero-headers
+
+[provide]
+dependency_names = prospero-headers
