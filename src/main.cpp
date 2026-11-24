@@ -88,7 +88,7 @@ int main() {
    SDL_GL_SetSwapInterval(1);
 
    SDL_Window * window = SDL_CreateWindow(
-       "ps5", 0, 0, 1920, 1080,
+       "ps5", 0, 0, 3840, 2160,
        SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 
    context = SDL_GL_CreateContext(window);
