@@ -1,5 +1,5 @@
 # ps5-app-sdk
-A minimal template for building a native app with OpenGL support to run from the PS5's home screen. The SDL2 library is also included as an example. Currently supports the meson build system, with plans to add support for other build systems. Based on the work of [BlackBearReloaded](https://github.com/blackbearreloaded/ps5-native-app-boilerplate) and the [PS5 Payload SDK](https://github.com/ps5-payload-dev/sdk), cleaned up significantly to make it easier to understand, maintain, and develop apps.
+A minimal template for building a native app with OpenGL and Vulkan support to run from the PS5's home screen. OpenGL support is through the mesa Zink driver, and Vulkan support is throgh RADV. The SDL2 library is also included as an example. Currently supports the meson build system, with plans to add support for other build systems. Based on the work of [BlackBearReloaded](https://github.com/blackbearreloaded/ps5-native-app-boilerplate) and the [PS5 Payload SDK](https://github.com/ps5-payload-dev/sdk), cleaned up significantly to make it easier to understand, maintain, and develop apps.
 
 ![PS5 OpenGL Demo](images/demo.png)
 
@@ -30,14 +30,13 @@ Use the ./drun.sh script to interface with the dev container. On the first run o
 * Native apps are launched differently from payloads, and do not have payload args
 * Native apps cannot directly make syscalls like payloads can
 * Calling functions like dlopen() will crash native apps due to the inability to make syscalls
+* Filesystem access is restricted for sandboxed apps. fopen must use absolute paths, chdir does not work, and paths must start with /app0/ which resolves to the app's PPSA folder
 
 ### A note about Heap memory
 * The ps5 has access to standard malloc/free, however, these live within libSceLibcInternal.sprx and these implementations only give you access to a very small heap
 * * From my testing, this heap is approximately 16MiB
 * To access more memory, use sceKernel.*DirectMemory APIs
-* malloc(), free(), etc can be overridden with an implementation in a homebrew app
-* An example of this is (here)[https://github.com/cybervisi0n/libntr/blob/main/libraries/sim/src/ps5_heap.cpp]
-* * Some form of malloc() replacement will make its way to this SDK soon™
+* This SDK uses dlmalloc to replace malloc, free, etc and uses a title heap backed by direct memory
 
 
 ## Debugging With GDB
